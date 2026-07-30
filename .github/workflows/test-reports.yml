@@ -1,0 +1,56 @@
+name: Generate and Upload Test Reports
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  run-tests-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Install Appium Tests Dependencies
+        working-directory: ./frontend/appium-tests
+        run: npm install
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Run Appium Report Generation
+        working-directory: ./frontend/appium-tests
+        run: node generate-report.js || true
+
+      - name: Run Selenium Tests (Login)
+        working-directory: ./frontend
+        run: node selenium-tests/tests/login-tests.js || true
+
+      - name: Run Load Tests Report
+        working-directory: ./backend
+        run: node generate-load-tests.cjs || true
+
+      - name: Run Security Reports
+        working-directory: ./backend
+        run: node generate-security-reports.cjs || true
+
+      - name: Upload Excel Reports to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-test-excel-reports
+          path: '**/*.xlsx'
+          retention-days: 30
