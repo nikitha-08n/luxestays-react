@@ -48,9 +48,14 @@ jobs:
         working-directory: ./backend
         run: node generate-security-reports.cjs || true
 
+      - name: Gather all reports into one folder
+        run: |
+          mkdir -p all_test_reports
+          find . -name "*.xlsx" -type f -exec cp {} all_test_reports/ \;
+
       - name: Upload Excel Reports to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: all-test-excel-reports
-          path: '**/*.xlsx'
+          path: all_test_reports/
           retention-days: 30
