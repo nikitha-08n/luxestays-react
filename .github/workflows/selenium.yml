@@ -1,0 +1,62 @@
+name: Selenium E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: '7.0'
+
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm ci
+
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Start Backend API
+      run: |
+        cd backend
+        npm run dev &
+      env:
+        PORT: 5000
+        MONGO_URI: mongodb://localhost:27017/luxestays_test
+        JWT_ACCESS_SECRET: test_secret
+        JWT_REFRESH_SECRET: test_refresh
+        CLIENT_URL: http://localhost:5173
+
+    - name: Start Frontend
+      run: |
+        cd frontend
+        npm run dev &
+      env:
+        VITE_API_URL: http://localhost:5000/api/v1
+
+    - name: Wait for services to be ready
+      run: |
+        npx wait-on http://localhost:5000/api/v1/health
+        npx wait-on http://localhost:5173
+
+    - name: Run E2E Tests
+      run: |
+        cd frontend
+        npm run test:e2e

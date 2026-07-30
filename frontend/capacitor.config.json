@@ -1,0 +1,8 @@
+{
+  "appId": "com.luxestays.app",
+  "appName": "LuxeStays",
+  "webDir": "dist",
+  "server": {
+    "cleartext": true
+  }
+}
