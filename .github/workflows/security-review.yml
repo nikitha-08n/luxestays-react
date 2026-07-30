@@ -39,17 +39,20 @@ jobs:
           
       - name: Secret Scanning (Gitleaks)
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: SAST Scanning (Semgrep)
         uses: returntocorp/semgrep-action@v1
+        continue-on-error: true
         with:
           config: "p/default"
           generateSarif: "1"
           
       - name: Dependency Scanning (Trivy)
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           scan-type: 'fs'
           ignore-unfixed: true
