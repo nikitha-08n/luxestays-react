@@ -260,7 +260,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('title')}
                 placeholder="e.g. Premium 3BHK Penthouse with Sea View"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.title && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.title.message}</p>}
             </div>
@@ -273,7 +273,7 @@ export default function ListProperty() {
                 rows={4}
                 {...register('description')}
                 placeholder="Provide a descriptive overview highlighting keys, space size, surrounding areas..."
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               ></textarea>
               {errors.description && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.description.message}</p>}
             </div>
@@ -284,7 +284,7 @@ export default function ListProperty() {
               </label>
               <select
                 {...register('propertyType')}
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               >
                 <option value="APARTMENT">Apartment</option>
                 <option value="HOUSE">House</option>
@@ -299,7 +299,7 @@ export default function ListProperty() {
               </label>
               <select
                 {...register('furnishing')}
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               >
                 <option value="UNFURNISHED">Unfurnished</option>
                 <option value="SEMI-FURNISHED">Semi-Furnished</option>
@@ -325,7 +325,7 @@ export default function ListProperty() {
                 type="number"
                 {...register('price')}
                 placeholder="45000"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.price && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.price.message}</p>}
             </div>
@@ -338,7 +338,7 @@ export default function ListProperty() {
                 type="number"
                 {...register('bedrooms')}
                 placeholder="3"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.bedrooms && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.bedrooms.message}</p>}
             </div>
@@ -351,7 +351,7 @@ export default function ListProperty() {
                 type="number"
                 {...register('bathrooms')}
                 placeholder="2"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.bathrooms && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.bathrooms.message}</p>}
             </div>
@@ -364,7 +364,7 @@ export default function ListProperty() {
                 type="number"
                 {...register('area')}
                 placeholder="1650"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.area && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.area.message}</p>}
             </div>
@@ -387,7 +387,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('upiId')}
                 placeholder="landlord@okaxis"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
             </div>
 
@@ -399,7 +399,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('bankAccountNumber')}
                 placeholder="987654321098"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
             </div>
 
@@ -411,7 +411,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('bankIfscCode')}
                 placeholder="SBIN0001234"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
             </div>
           </div>
@@ -433,7 +433,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('address')}
                 placeholder="123 Luxury Avenue, Indira Nagar"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.address && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.address.message}</p>}
             </div>
@@ -446,7 +446,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('city')}
                 placeholder="Bangalore"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.city && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.city.message}</p>}
             </div>
@@ -459,7 +459,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('state')}
                 placeholder="Karnataka"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.state && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.state.message}</p>}
             </div>
@@ -472,7 +472,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('zipCode')}
                 placeholder="560038"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.zipCode && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.zipCode.message}</p>}
             </div>
@@ -485,7 +485,7 @@ export default function ListProperty() {
                 type="text"
                 {...register('contactNumber')}
                 placeholder="+91 98765 43210"
-                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none focus:border-brand-500"
+                className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-brand-500"
               />
               {errors.contactNumber && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.contactNumber.message}</p>}
             </div>
@@ -499,7 +499,7 @@ export default function ListProperty() {
                   <input
                     type="text"
                     {...register('latitude')}
-                    className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none"
+                    className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none"
                   />
                   {errors.latitude && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.latitude.message}</p>}
                 </div>
@@ -510,7 +510,7 @@ export default function ListProperty() {
                   <input
                     type="text"
                     {...register('longitude')}
-                    className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-250 focus:outline-none"
+                    className="w-full bg-slate-100/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-xl py-3 px-4 text-sm text-slate-800 dark:text-slate-200 focus:outline-none"
                   />
                   {errors.longitude && <p className="text-xs text-rose-500 mt-1 font-semibold">{errors.longitude.message}</p>}
                 </div>

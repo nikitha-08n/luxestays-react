@@ -259,7 +259,7 @@ export default function BookingsDashboard() {
       {activeTab === 'renter' && (
         <div className="space-y-6">
           {/* Sub-tabs for Renters */}
-          <div className="flex border-b border-slate-250 dark:border-slate-850 pb-3 gap-6">
+          <div className="flex border-b border-slate-200 dark:border-slate-850 pb-3 gap-6">
             <button
               onClick={() => setRenterSubTab('visits')}
               className={`text-sm font-bold pb-1.5 transition ${

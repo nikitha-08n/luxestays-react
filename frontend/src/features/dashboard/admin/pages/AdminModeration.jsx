@@ -208,7 +208,7 @@ export default function AdminModeration() {
                   </div>
                   <button
                     onClick={() => setInspectingProperty(null)}
-                    className="text-slate-400 hover:text-slate-650 dark:hover:text-slate-250 p-2 rounded-full"
+                    className="text-slate-400 hover:text-slate-650 dark:hover:text-slate-200 p-2 rounded-full"
                   >
                     <X size={20} />
                   </button>

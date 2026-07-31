@@ -432,7 +432,7 @@ export default function RenterDashboard() {
                     const cityProps = properties.filter(p => p.city === city);
                     return (
                       <div key={city} className="space-y-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-900 rounded-2xl p-5 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-1.5">
+                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                           <MapPin size={16} className="text-brand-500" />
                           {city} Properties in Response
                         </h4>

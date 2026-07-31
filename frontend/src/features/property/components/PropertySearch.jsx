@@ -142,7 +142,7 @@ export default function PropertySearch() {
                   <select
                     value={searchParams.propertyType}
                     onChange={(e) => setSearchParams(prev => ({ ...prev, propertyType: e.target.value }))}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
                   >
                     <option value="">All Types</option>
                     <option value="APARTMENT">Apartment</option>
@@ -162,7 +162,7 @@ export default function PropertySearch() {
                       placeholder="₹ Min"
                       value={searchParams.minPrice}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, minPrice: e.target.value }))}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
                     />
                   </div>
                   <div>
@@ -174,7 +174,7 @@ export default function PropertySearch() {
                       placeholder="₹ Max"
                       value={searchParams.maxPrice}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, maxPrice: e.target.value }))}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
                     />
                   </div>
                 </div>
