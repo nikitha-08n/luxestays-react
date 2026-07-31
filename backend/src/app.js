@@ -29,6 +29,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust reverse proxy (Render) to allow rate limiting to work correctly
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
