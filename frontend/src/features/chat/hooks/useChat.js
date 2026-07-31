@@ -3,7 +3,18 @@ import { io } from 'socket.io-client';
 import useAuthStore from '../../../store/authStore';
 import { api } from '../../../lib/axios';
 
-const SOCKET_URL = 'http://localhost:5000';
+const getSocketUrl = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    try {
+      return new URL(apiUrl).origin;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  return 'http://localhost:5000';
+};
+const SOCKET_URL = getSocketUrl();
 
 export function useChat(recipientId) {
   const { user } = useAuthStore();
