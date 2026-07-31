@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "logs": "powershell -Command \"Get-Content -Wait -Tail 100 -Path logs/combined.log\""
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
