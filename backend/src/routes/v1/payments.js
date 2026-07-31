@@ -91,14 +91,12 @@ router.post('/verify', async (req, res, next) => {
       utrNumber,
     });
 
-    // Credit points if paid online
+    // Credit points
     let renterPoints = 0;
     const renter = await User.findById(booking.renterId._id);
     if (renter) {
-      if (paymentMethod === 'ONLINE') {
-        renter.points = (renter.points || 0) + 150; // award 150 points for online payment!
-        await renter.save();
-      }
+      renter.points = (renter.points || 0) + 150; // award 150 points for every successful checkout payment!
+      await renter.save();
       renterPoints = renter.points || 0;
     }
 
@@ -257,14 +255,12 @@ router.post('/pay-invoice', async (req, res, next) => {
 
     PAID_INVOICES_CACHE.add(invoiceId);
 
-    // Credit points if paid online
+    // Credit points
     let renterPoints = 0;
     const renter = await User.findById(req.user.id);
     if (renter) {
-      if (paymentMethod === 'ONLINE') {
-        renter.points = (renter.points || 0) + 150; // award 150 points for online payment!
-        await renter.save();
-      }
+      renter.points = (renter.points || 0) + 150; // award 150 points for every successful invoice payment!
+      await renter.save();
       renterPoints = renter.points || 0;
     }
 

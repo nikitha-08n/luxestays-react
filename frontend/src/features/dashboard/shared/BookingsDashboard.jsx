@@ -71,8 +71,15 @@ export default function BookingsDashboard() {
           utrNumber: utrInput,
         });
         if (response.success) {
-          toast.success(`Rent Invoice for ${invoice.month} paid successfully via UPI!`);
+          toast.success(`Rent Invoice for ${invoice.month} paid successfully via UPI! +150 loyalty points added!`);
           toast.success(`UTR Ref #${utrInput} recorded successfully!`);
+          const updatedPoints = response.data?.points;
+          if (updatedPoints !== undefined) {
+            useAuthStore.getState().setUser({
+              ...useAuthStore.getState().user,
+              points: updatedPoints
+            });
+          }
           fetchInvoices();
         } else {
           toast.error(response.message || 'Payment failed');
@@ -141,6 +148,13 @@ export default function BookingsDashboard() {
             if (payRes.success) {
               toast.success(`Rent Invoice for ${invoice.month} paid successfully!`);
               toast.success('Earned 150 Loyalty Points!');
+              const updatedPoints = payRes.data?.points;
+              if (updatedPoints !== undefined) {
+                useAuthStore.getState().setUser({
+                  ...useAuthStore.getState().user,
+                  points: updatedPoints
+                });
+              }
               fetchInvoices();
             } else {
               toast.error(payRes.message || 'Payment verification failed');

@@ -53,7 +53,14 @@ export default function PaymentModal({ booking, onClose, onSuccess }) {
         });
 
         if (verifyResponse.success) {
-          toast.success('Offline Cash Payment confirmed.');
+          toast.success('Offline Cash Payment confirmed. +150 loyalty points added!');
+          const updatedPoints = verifyResponse.data?.points;
+          if (updatedPoints !== undefined) {
+            useAuthStore.getState().setUser({
+              ...useAuthStore.getState().user,
+              points: updatedPoints
+            });
+          }
           onSuccess();
         } else {
           toast.error(verifyResponse.message || 'Payment confirmation failed');
