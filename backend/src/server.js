@@ -1,4 +1,9 @@
 import 'dotenv/config';
+
+// Ensure JWT secrets have default fallbacks to prevent crashes on cloud deployments like Render
+process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'luxestays_access_secret_super_key_2026_prod_key_987654';
+process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'luxestays_refresh_secret_super_key_2026_prod_key_123456';
+
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
 import app from './app.js';
