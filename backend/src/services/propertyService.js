@@ -1,5 +1,6 @@
 import propertyRepo from '../repositories/propertyRepo.js';
 import { uploadImageStream, deleteImage } from '../config/cloudinary.js';
+import { EXTERNAL_LISTINGS } from '../routes/v1/externalListings.js';
 import ApiError from '../utils/ApiError.js';
 import logger from '../utils/logger.js';
 
@@ -68,6 +69,39 @@ export const createProperty = async (ownerId, propertyData, files = []) => {
  * Get detailed view of individual property listing
  */
 export const getPropertyById = async (id, requester = null) => {
+  if (id && id.startsWith('ext_')) {
+    const extProperty = EXTERNAL_LISTINGS.find(item => item.id === id);
+    if (!extProperty) {
+      throw ApiError.notFound('Property listing not found');
+    }
+    return {
+      _id: extProperty.id,
+      title: extProperty.title,
+      address: extProperty.address,
+      city: extProperty.city,
+      price: extProperty.price,
+      bedrooms: extProperty.bedrooms,
+      bathrooms: extProperty.bathrooms,
+      propertyType: extProperty.propertyType,
+      contactNumber: extProperty.contactNumber,
+      description: extProperty.description,
+      location: {
+        type: 'Point',
+        coordinates: [extProperty.longitude, extProperty.latitude]
+      },
+      images: [{ url: extProperty.imageUrl }],
+      amenities: extProperty.amenities,
+      source: extProperty.source,
+      status: 'APPROVED',
+      isAvailable: true,
+      ownerId: {
+        _id: 'ext_owner',
+        name: 'MLS Real Estate Agent',
+        email: extProperty.contactNumber
+      }
+    };
+  }
+
   const property = await propertyRepo.findById(id);
   if (!property) {
     throw ApiError.notFound('Property listing not found');
@@ -244,7 +278,74 @@ export const searchProperties = async (searchParams) => {
     ];
   }
 
-  return propertyRepo.findNear(Number(longitude), Number(latitude), radiusInMeters, extraFilters);
+  // Haversine formula helper to filter external listings in meters
+  const getDistanceInMeters = (lat1, lon1, lat2, lon2) => {
+    const R = 6371e3; // Earth's radius in meters
+    const phi1 = lat1 * Math.PI / 180;
+    const phi2 = lat2 * Math.PI / 180;
+    const deltaPhi = (lat2 - lat1) * Math.PI / 180;
+    const deltaLambda = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+              Math.cos(phi1) * Math.cos(phi2) *
+              Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+  };
+
+  const matchedExternal = EXTERNAL_LISTINGS.filter(item => {
+    // 1. Distance check
+    const distance = getDistanceInMeters(Number(latitude), Number(longitude), item.latitude, item.longitude);
+    if (distance > radiusInMeters) return false;
+
+    // 2. Property Type check
+    if (propertyType && item.propertyType !== propertyType) return false;
+
+    // 3. Price check
+    if (minPrice && item.price < Number(minPrice)) return false;
+    if (maxPrice && item.price > Number(maxPrice)) return false;
+
+    // 4. City/Address search
+    if (city && city.trim() !== '') {
+      const cleanCity = city.trim().toLowerCase();
+      const matchCity = item.city.toLowerCase().includes(cleanCity) || 
+                        item.address.toLowerCase().includes(cleanCity);
+      if (!matchCity) return false;
+    }
+
+    return true;
+  });
+
+  const mappedExternal = matchedExternal.map(item => ({
+    _id: item.id,
+    title: item.title,
+    address: item.address,
+    city: item.city,
+    price: item.price,
+    bedrooms: item.bedrooms,
+    bathrooms: item.bathrooms,
+    propertyType: item.propertyType,
+    contactNumber: item.contactNumber,
+    description: item.description,
+    location: {
+      type: 'Point',
+      coordinates: [item.longitude, item.latitude]
+    },
+    images: [{ url: item.imageUrl }],
+    amenities: item.amenities,
+    source: item.source,
+    isExternal: true,
+    ownerId: {
+      _id: 'ext_owner',
+      name: 'MLS Real Estate Agent',
+      email: item.contactNumber
+    }
+  }));
+
+  const dbProperties = await propertyRepo.findNear(Number(longitude), Number(latitude), radiusInMeters, extraFilters);
+
+  return [...dbProperties, ...mappedExternal];
 };
 
 export default {

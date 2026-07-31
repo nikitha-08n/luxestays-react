@@ -401,7 +401,7 @@ const generateListings = () => {
   return listings;
 };
 
-const EXTERNAL_LISTINGS = generateListings();
+export const EXTERNAL_LISTINGS = generateListings();
 
 router.get('/', (req, res) => {
   res.status(200).json(ApiResponse.success(EXTERNAL_LISTINGS, 'External listings fetched successfully'));
