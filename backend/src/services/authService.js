@@ -58,27 +58,25 @@ export const registerUser = async ({ name, email, password, role }) => {
     isVerified: false,
   });
 
-  // Send Email (fail-safe log in dev)
-  try {
-    await sendEmail({
-      to: email,
-      subject: 'Verify Your LuxeStays Account',
-      text: `Welcome to LuxeStays, ${name}!\n\nYour account verification code is: ${otpCode}\nThis code is valid for 5 minutes.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-          <h2 style="color: #0ea5e9; text-align: center;">Welcome to LuxeStays</h2>
-          <p>Hello ${name},</p>
-          <p>Thank you for registering. Please verify your account using the security code below:</p>
-          <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
-            ${otpCode}
-          </div>
-          <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes. If you did not sign up for LuxeStays, please ignore this email.</p>
+  // Send Email in background (fail-safe log in dev, non-blocking)
+  sendEmail({
+    to: email,
+    subject: 'Verify Your LuxeStays Account',
+    text: `Welcome to LuxeStays, ${name}!\n\nYour account verification code is: ${otpCode}\nThis code is valid for 5 minutes.`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <h2 style="color: #0ea5e9; text-align: center;">Welcome to LuxeStays</h2>
+        <p>Hello ${name},</p>
+        <p>Thank you for registering. Please verify your account using the security code below:</p>
+        <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
+          ${otpCode}
         </div>
-      `,
-    });
-  } catch (err) {
+        <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes. If you did not sign up for LuxeStays, please ignore this email.</p>
+      </div>
+    `,
+  }).catch((err) => {
     logger.error(`Failed to dispatch registration email: ${err.message}`);
-  }
+  });
 
   return {
     id: user._id,
@@ -217,26 +215,25 @@ export const forgotPassword = async ({ email }) => {
   // Save OTP
   await otpRepo.createOTP(email, otpCode, expiresAt);
 
-  try {
-    await sendEmail({
-      to: email,
-      subject: 'Reset Your LuxeStays Password',
-      text: `Hello ${user.name},\n\nYou requested to reset your password. Use verification code: ${otpCode} to complete the reset.\nThis code is valid for 5 minutes.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-          <h2 style="color: #e11d48; text-align: center;">Reset LuxeStays Password</h2>
-          <p>Hello ${user.name},</p>
-          <p>You requested a password reset code. Please enter the security code below in the password reset page:</p>
-          <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
-            ${otpCode}
-          </div>
-          <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes. If you did not request a password reset, please secure your account.</p>
+  // Send Email in background (non-blocking)
+  sendEmail({
+    to: email,
+    subject: 'Reset Your LuxeStays Password',
+    text: `Hello ${user.name},\n\nYou requested to reset your password. Use verification code: ${otpCode} to complete the reset.\nThis code is valid for 5 minutes.`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <h2 style="color: #e11d48; text-align: center;">Reset LuxeStays Password</h2>
+        <p>Hello ${user.name},</p>
+        <p>You requested a password reset code. Please enter the security code below in the password reset page:</p>
+        <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
+          ${otpCode}
         </div>
-      `,
-    });
-  } catch (err) {
+        <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes. If you did not request a password reset, please secure your account.</p>
+      </div>
+    `,
+  }).catch((err) => {
     logger.error(`Forgot password email failed: ${err.message}`);
-  }
+  });
 
   return { success: true };
 };
@@ -324,26 +321,25 @@ export const resendOTP = async ({ email }) => {
   await otpRepo.deleteOTPsByEmail(email);
   await otpRepo.createOTP(email, otpCode, expiresAt);
 
-  try {
-    await sendEmail({
-      to: email,
-      subject: 'Verify Your LuxeStays Account (New OTP)',
-      text: `Your new LuxeStays account verification code is: ${otpCode}\nThis code is valid for 5 minutes.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-          <h2 style="color: #0ea5e9; text-align: center;">New Verification Code</h2>
-          <p>Hello ${user.name},</p>
-          <p>You requested a new verification code. Please verify your account using the code below:</p>
-          <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
-            ${otpCode}
-          </div>
-          <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes.</p>
+  // Send Email in background (non-blocking)
+  sendEmail({
+    to: email,
+    subject: 'Verify Your LuxeStays Account (New OTP)',
+    text: `Your new LuxeStays account verification code is: ${otpCode}\nThis code is valid for 5 minutes.`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <h2 style="color: #0ea5e9; text-align: center;">New Verification Code</h2>
+        <p>Hello ${user.name},</p>
+        <p>You requested a new verification code. Please verify your account using the code below:</p>
+        <div style="background-color: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 20px 0; border: 1px solid #cbd5e1; color: #1e293b;">
+          ${otpCode}
         </div>
-      `,
-    });
-  } catch (err) {
+        <p style="color: #64748b; font-size: 12px; text-align: center;">This code expires in 5 minutes.</p>
+      </div>
+    `,
+  }).catch((err) => {
     logger.error(`Resend OTP email failed: ${err.message}`);
-  }
+  });
 
   return { success: true };
 };
