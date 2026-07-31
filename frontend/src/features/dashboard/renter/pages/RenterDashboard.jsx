@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { usePropertiesQuery } from '../../../property/hooks/useProperty';
 import { useAuthStore } from '../../../../store/authStore';
 import { getImageUrl } from '../../../../utils/getImageUrl';
+import { api } from '../../../../lib/axios';
 import toast from 'react-hot-toast';
 import { 
   Building, MapPin, BedDouble, Bath, Sparkles, Coins, Gift, 
@@ -24,11 +25,10 @@ export default function RenterDashboard() {
 
   useEffect(() => {
     setLoadingExternal(true);
-    fetch('/api/v1/external-listings')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setExternalListings(data.data);
+    api.get('/external-listings')
+      .then(res => {
+        if (res.success) {
+          setExternalListings(res.data);
         }
       })
       .catch(err => console.error(err))
