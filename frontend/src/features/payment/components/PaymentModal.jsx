@@ -133,8 +133,8 @@ export default function PaymentModal({ booking, onClose, onSuccess }) {
   const total = rent + processFee;
 
   return (
-    <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md shadow-2xl relative flex flex-col max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-start sm:items-center justify-center z-50 p-4 pt-10 sm:p-4">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md shadow-2xl relative flex flex-col max-h-[80vh] overflow-hidden">
         {/* Top Header */}
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
           <div className="flex items-center gap-2">
