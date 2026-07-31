@@ -63,8 +63,15 @@ export const updateBookingStatus = async (bookingId, userId, userRole, status) =
     throw ApiError.notFound('Booking not found');
   }
 
-  const isOwner = booking.propertyId.ownerId._id.toString() === userId.toString();
-  const isRenter = booking.renterId._id.toString() === userId.toString();
+  const ownerIdString = booking.propertyId && booking.propertyId.ownerId
+    ? (booking.propertyId.ownerId._id || booking.propertyId.ownerId).toString()
+    : null;
+  const renterIdString = booking.renterId
+    ? (booking.renterId._id || booking.renterId).toString()
+    : null;
+
+  const isOwner = ownerIdString === userId.toString();
+  const isRenter = renterIdString === userId.toString();
 
   if (status === 'APPROVED' || status === 'REJECTED') {
     if (!isOwner && userRole !== 'ADMIN') {
@@ -82,22 +89,26 @@ export const updateBookingStatus = async (bookingId, userId, userRole, status) =
 
   // Notify Renter of status update
   if (status === 'APPROVED' || status === 'REJECTED') {
-    await createNotification(
-      booking.renterId._id,
-      `Visit Request ${status.toLowerCase()}`,
-      `The landlord has ${status.toLowerCase()} your visit request for ${booking.propertyId.title}`,
-      'BOOKING'
-    );
+    if (booking.renterId) {
+      await createNotification(
+        booking.renterId._id || booking.renterId,
+        `Visit Request ${status.toLowerCase()}`,
+        `The landlord has ${status.toLowerCase()} your visit request for ${booking.propertyId?.title || 'Property'}`,
+        'BOOKING'
+      );
+    }
   }
 
   // Notify Owner if Renter cancels
   if (status === 'CANCELLED' && isRenter) {
-    await createNotification(
-      booking.propertyId.ownerId,
-      'Visit Cancelled by Tenant',
-      `Renter has cancelled their visit schedule request for ${booking.propertyId.title}`,
-      'BOOKING'
-    );
+    if (ownerIdString) {
+      await createNotification(
+        ownerIdString,
+        'Visit Cancelled by Tenant',
+        `Renter has cancelled their visit schedule request for ${booking.propertyId?.title || 'Property'}`,
+        'BOOKING'
+      );
+    }
   }
 
   return updatedBooking;
