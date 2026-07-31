@@ -37,6 +37,8 @@ io.on('connection', (socket) => {
       const { senderId, receiverId, propertyId, message } = data;
       if (!senderId || !receiverId || !message) return;
 
+      logger.info(`WebSocket: Message from ${senderId} to ${receiverId}: "${message}" (Property: ${propertyId || 'none'})`);
+
       const savedMessage = await Message.create({
         senderId,
         receiverId,

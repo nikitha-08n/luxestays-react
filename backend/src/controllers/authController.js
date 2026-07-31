@@ -1,5 +1,6 @@
 import * as authService from '../services/authService.js';
 import ApiResponse from '../utils/ApiResponse.js';
+import logger from '../utils/logger.js';
 
 // Central cookie options configuration
 const COOKIE_OPTIONS = {
@@ -11,6 +12,7 @@ const COOKIE_OPTIONS = {
 
 export const register = async (req, res, next) => {
   try {
+    logger.info(`Auth Action: Registering user "${req.body.name}" with email "${req.body.email}"`);
     const user = await authService.registerUser(req.body);
     res.status(201).json(ApiResponse.created(user, 'User registered successfully. Please verify your email.'));
   } catch (error) {
@@ -21,6 +23,7 @@ export const register = async (req, res, next) => {
 export const verify = async (req, res, next) => {
   try {
     const result = await authService.verifyOTP(req.body);
+    logger.info(`Auth Action: OTP verification successful for email "${req.body.email}"`);
     res.cookie('refreshToken', result.refreshToken, COOKIE_OPTIONS);
     res.status(200).json(ApiResponse.success({
       user: result.user,
@@ -33,7 +36,9 @@ export const verify = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
+    logger.info(`Auth Action: Sign-in attempt for email "${req.body.email}"`);
     const result = await authService.loginUser(req.body);
+    logger.info(`Auth Action: Sign-in successful for user "${result.user.name}" (${result.user.role})`);
     res.cookie('refreshToken', result.refreshToken, COOKIE_OPTIONS);
     res.status(200).json(ApiResponse.success({
       user: result.user,
