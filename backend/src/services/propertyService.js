@@ -97,7 +97,7 @@ export const getPropertyById = async (id, requester = null) => {
       ownerId: {
         _id: 'ext_owner',
         name: 'MLS Real Estate Agent',
-        email: extProperty.contactNumber
+        email: `agent_${extProperty.id.replace('ext_', '')}@luxestays.com`
       }
     };
   }
@@ -339,7 +339,7 @@ export const searchProperties = async (searchParams) => {
     ownerId: {
       _id: 'ext_owner',
       name: 'MLS Real Estate Agent',
-      email: item.contactNumber
+      email: `agent_${item.id.replace('ext_', '')}@luxestays.com`
     }
   }));
 
