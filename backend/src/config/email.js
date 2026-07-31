@@ -24,7 +24,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
     const senderName = process.env.FROM_NAME || 'LuxeStays Platform';
 
     // If using Brevo API Key, bypass SMTP port block and use Brevo's REST API directly (Port 443)
-    if (apiKey && apiKey.startsWith('xsmtpsib-')) {
+    if (apiKey && (apiKey.startsWith('xsmtpsib-') || apiKey.startsWith('xkeysib-'))) {
       const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
         headers: {
