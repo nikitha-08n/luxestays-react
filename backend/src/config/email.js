@@ -14,23 +14,56 @@ const transporter = nodemailer.createTransport({
 
 export const sendEmail = async ({ to, subject, html, text }) => {
   try {
-    const mailOptions = {
-      from: `"${process.env.FROM_NAME || 'LuxeStays'}" <${process.env.FROM_EMAIL || 'noreply@luxestays.com'}>`,
-      to,
-      subject,
-      text,
-      html,
-    };
-
     logger.info(`📧 Sending Email to: ${to} | Subject: ${subject}`);
     
     // In development mode, output email body to console for easy OTP access
     logger.info(`[Dev Mail Body]:\n${text || html}\n----------------------`);
 
-    // Only attempt delivery if SMTP credentials look set
+    const apiKey = process.env.SMTP_PASS;
+    const senderEmail = process.env.FROM_EMAIL || 'noreply@luxestays.com';
+    const senderName = process.env.FROM_NAME || 'LuxeStays Platform';
+
+    // If using Brevo API Key, bypass SMTP port block and use Brevo's REST API directly (Port 443)
+    if (apiKey && apiKey.startsWith('xsmtpsib-')) {
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': apiKey,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: {
+            name: senderName,
+            email: senderEmail,
+          },
+          to: [{ email: to }],
+          subject,
+          htmlContent: html,
+          textContent: text,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Brevo API HTTP status: ${response.status}`);
+      }
+
+      const info = await response.json();
+      logger.info(`📧 Email sent successfully via Brevo HTTP API: ${JSON.stringify(info)}`);
+      return info;
+    }
+
+    // Fallback to Nodemailer SMTP (for Gmail/Local development)
     if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_PASS !== 'app_password_here') {
-      const info = await transporter.sendMail(mailOptions);
-      logger.info(`📧 Email sent successfully: MessageId: ${info.messageId}`);
+      const info = await transporter.sendMail({
+        from: `"${senderName}" <${senderEmail}>`,
+        to,
+        subject,
+        text,
+        html,
+      });
+      logger.info(`📧 Email sent successfully via SMTP: MessageId: ${info.messageId}`);
       return info;
     } else {
       logger.warn(`⚠️ SMTP Credentials not configured or using default values. Skipped actual delivery, using console log fallback.`);
