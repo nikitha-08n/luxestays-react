@@ -136,40 +136,63 @@ router.get('/invoices', async (req, res, next) => {
     const bookings = await bookingRepo.findRenterBookings(renterId);
     const paidBookings = bookings.filter(b => b.status === 'PAID');
 
+    const getInvoiceDetails = (bookingDate, monthsToAdd) => {
+      const date = new Date(bookingDate);
+      date.setMonth(date.getMonth() + monthsToAdd);
+      
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      const monthStr = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+      
+      // Due date is the 10th of that month
+      const dueDate = new Date(date.getFullYear(), date.getMonth(), 10);
+      
+      return { monthStr, dueDate };
+    };
+
     const invoices = [];
     paidBookings.forEach(booking => {
       const rentAmount = booking.propertyId?.price || booking.amount;
-      
-      // Invoice 1: Overdue Month
-      const overdueInvoiceId = `inv_prev_${booking._id}`;
-      const isOverduePaid = PAID_INVOICES_CACHE.has(overdueInvoiceId);
+      const bookingDate = booking.visitDate || booking.createdAt;
+
+      // Invoice 1: 1 Month after Booking Start
+      const { monthStr: m1Str, dueDate: d1Date } = getInvoiceDetails(bookingDate, 1);
+      const invoice1Id = `inv_m1_${booking._id}`;
+      const isM1Paid = PAID_INVOICES_CACHE.has(invoice1Id);
+      const isM1Overdue = !isM1Paid && d1Date.getTime() < Date.now();
+
       invoices.push({
-        id: overdueInvoiceId,
+        id: invoice1Id,
         bookingId: booking._id,
         propertyTitle: booking.propertyId?.title || 'Luxury Residence',
         city: booking.propertyId?.city || 'Chennai',
-        month: 'June 2026',
-        dueDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago (Late!)
+        month: m1Str,
+        dueDate: d1Date,
         baseRent: rentAmount,
-        penalty: 200, // 200 late penalty
-        total: rentAmount + 200,
-        status: isOverduePaid ? 'PAID' : 'OVERDUE'
+        penalty: isM1Overdue ? 200 : 0,
+        total: rentAmount + (isM1Overdue ? 200 : 0),
+        status: isM1Paid ? 'PAID' : (isM1Overdue ? 'OVERDUE' : 'PENDING')
       });
 
-      // Invoice 2: Current Month (On Time)
-      const currentInvoiceId = `inv_curr_${booking._id}`;
-      const isCurrentPaid = PAID_INVOICES_CACHE.has(currentInvoiceId);
+      // Invoice 2: 2 Months after Booking Start
+      const { monthStr: m2Str, dueDate: d2Date } = getInvoiceDetails(bookingDate, 2);
+      const invoice2Id = `inv_m2_${booking._id}`;
+      const isM2Paid = PAID_INVOICES_CACHE.has(invoice2Id);
+      const isM2Overdue = !isM2Paid && d2Date.getTime() < Date.now();
+
       invoices.push({
-        id: currentInvoiceId,
+        id: invoice2Id,
         bookingId: booking._id,
         propertyTitle: booking.propertyId?.title || 'Luxury Residence',
         city: booking.propertyId?.city || 'Chennai',
-        month: 'July 2026',
-        dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
+        month: m2Str,
+        dueDate: d2Date,
         baseRent: rentAmount,
-        penalty: 0,
-        total: rentAmount,
-        status: isCurrentPaid ? 'PAID' : 'PENDING'
+        penalty: isM2Overdue ? 200 : 0,
+        total: rentAmount + (isM2Overdue ? 200 : 0),
+        status: isM2Paid ? 'PAID' : (isM2Overdue ? 'OVERDUE' : 'PENDING')
       });
     });
 
