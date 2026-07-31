@@ -24,6 +24,15 @@ export default function RenterDashboard() {
   const [loadingExternal, setLoadingExternal] = useState(false);
 
   useEffect(() => {
+    // Sync latest user profile details (such as updated loyalty points) from DB
+    api.get('/auth/profile')
+      .then(res => {
+        if (res.success && res.data) {
+          useAuthStore.getState().setUser(res.data);
+        }
+      })
+      .catch(err => console.error('Failed to sync user profile:', err));
+
     setLoadingExternal(true);
     api.get('/external-listings')
       .then(res => {
