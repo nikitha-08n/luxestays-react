@@ -185,7 +185,123 @@ const IMAGES = {
   ]
 };
 
-const ADJECTIVES = ['Premium', 'Luxury', 'Cozy', 'Elegant', 'Modern', 'Spacious', 'Comfortable', 'Stunning', 'Budget-friendly'];
+const REAL_PROJECTS = [
+  {
+    name: "Prestige Lakeside Habitat",
+    city: "Bengaluru",
+    area: "Whitefield",
+    propertyType: "APARTMENT",
+    desc: "Spacious luxury apartment overlooking Varthur Lake. Fully furnished with modular kitchen, central AC, marble flooring, and access to a 50,000 sq ft clubhouse.",
+    images: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
+    price: 65000,
+    bedrooms: 3,
+    bathrooms: 3
+  },
+  {
+    name: "DLF The Aralias",
+    city: "Delhi",
+    area: "Golf Course Road",
+    propertyType: "HOUSE",
+    desc: "Ultra-luxury high-rise overlooking DLF Golf Course. Features private lift lobby, VRV air conditioning, concierge services, and bespoke Italian kitchen fittings.",
+    images: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
+    price: 180000,
+    bedrooms: 4,
+    bathrooms: 5
+  },
+  {
+    name: "Lodha Altamount",
+    city: "Mumbai",
+    area: "Altamount Road",
+    propertyType: "APARTMENT",
+    desc: "Bespoke high-end residence on India's most premium residential street. Features panoramic ocean views, private temperature-controlled pool, and 24/7 butler service.",
+    images: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80",
+    price: 250000,
+    bedrooms: 4,
+    bathrooms: 4
+  },
+  {
+    name: "Hiranandani Gardens",
+    city: "Mumbai",
+    area: "Powai",
+    propertyType: "APARTMENT",
+    desc: "Neoclassical style luxury flat in Powai. Fully furnished with solid teakwood furniture, modular kitchen, separate servant quarters, and premium electrical fittings.",
+    images: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
+    price: 95000,
+    bedrooms: 3,
+    bathrooms: 3
+  },
+  {
+    name: "Sobha Royal Pavilion",
+    city: "Bengaluru",
+    area: "Sarjapur Road",
+    propertyType: "HOUSE",
+    desc: "Rajasthani palace themed luxury enclave. Exquisite carvings, marble pillars, premium wooden flooring in master bedroom, and state-of-the-art home automation.",
+    images: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+    price: 110000,
+    bedrooms: 4,
+    bathrooms: 4
+  },
+  {
+    name: "Tata Promont",
+    city: "Bengaluru",
+    area: "Banashankari",
+    propertyType: "APARTMENT",
+    desc: "Premium hillside residences offering an elevated lifestyle. Features double-height living room ceilings, automated lighting, and stunning views of the Bengaluru skyline.",
+    images: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=600&q=80",
+    price: 85000,
+    bedrooms: 3,
+    bathrooms: 3
+  },
+  {
+    name: "Casagrand Zenith",
+    city: "Chennai",
+    area: "Medavakkam",
+    propertyType: "APARTMENT",
+    desc: "Premium 3 BHK residential flat with high-end amenities. Offers smart lock entry, modular kitchen with chimney, false ceiling with LED spotlights, and balcony facing garden view.",
+    images: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+    price: 32000,
+    bedrooms: 3,
+    bathrooms: 3
+  },
+  {
+    name: "Appaswamy Platina",
+    city: "Chennai",
+    area: "Porur",
+    propertyType: "APARTMENT",
+    desc: "Luxury multi-storey residential apartment. Fully ventilated bedrooms with French windows, semi-furnished with wardrobes, piped gas connection, and private utility area.",
+    images: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80",
+    price: 28000,
+    bedrooms: 2,
+    bathrooms: 2
+  },
+  {
+    name: "Godrej Woods",
+    city: "Noida",
+    area: "Sector 43",
+    propertyType: "HOUSE",
+    desc: "Premium forest-theme residential complex with an urban forest. Highlights include high-quality laminate flooring, double glazed glass windows, and central heat pumps.",
+    images: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80",
+    price: 75000,
+    bedrooms: 3,
+    bathrooms: 3
+  },
+  {
+    name: "Aparna One",
+    city: "Hyderabad",
+    area: "Nanakramguda",
+    propertyType: "APARTMENT",
+    desc: "Smart-home enabled high-rise residential towers. Voice-controlled lighting and appliances, premium marble kitchen counters, and full-view glass panels.",
+    images: "https://images.unsplash.com/photo-1502005229762-fc1b2b812ca5?auto=format&fit=crop&w=600&q=80",
+    price: 90000,
+    bedrooms: 4,
+    bathrooms: 4
+  }
+];
+
+const BUILDERS = ['Casagrand', 'Prestige', 'DLF', 'Lodha', 'Hiranandani', 'Brigade', 'Sobha', 'Tata', 'Godrej', 'Aparna', 'Puravankara', 'Shapoorji Pallonji', 'Kolte Patil', 'Mahindra Lifespaces', 'L&T Realty'];
+const PROJECT_SUFFIXES = ['Plaza', 'Heights', 'Enclave', 'Castle', 'Nest', 'Elite', 'Gardens', 'Greenwood', 'Lakeside', 'Pavilion', 'Terraces', 'Paradise', 'Villas', 'Haven', 'Palms'];
+const PG_PROVIDERS = ['Stanza Living', 'Zolo Stay', 'Colive', 'Hello World', 'Nestaway', 'MyRoom PG', 'Homigo'];
+
 const AMENITIES_POOL = [
   '24/7 Security', 'High-Speed Wi-Fi', 'Pet Friendly', 'Gym / Fitness Center',
   'Air Conditioning', 'Power Backup', 'Swimming Pool', 'Garden / Lawn',
@@ -196,33 +312,63 @@ const AMENITIES_POOL = [
 const generateListings = () => {
   const listings = [];
   for (let i = 1; i <= 300; i++) {
-    const city = CITIES[i % CITIES.length];
+    // For the first 10 items, use the real luxury projects list to seed the top listings
+    const isRealProject = i <= REAL_PROJECTS.length;
+    const realProj = isRealProject ? REAL_PROJECTS[i - 1] : null;
+
+    const city = isRealProject ? realProj.city : CITIES[i % CITIES.length];
     const cityAreas = AREAS[city] || [`${city} Central Area`, `${city} Suburbs`, `${city} Bypass Road`, `${city} Gandhi Nagar`];
-    const area = cityAreas[i % cityAreas.length];
-    const propertyTypes = ['APARTMENT', 'HOUSE', 'PG'];
-    const propertyType = propertyTypes[i % propertyTypes.length];
-    const adjective = ADJECTIVES[i % ADJECTIVES.length];
+    const area = isRealProject ? realProj.area : cityAreas[i % cityAreas.length];
     
-    let bedrooms = (i % 4) + 1;
-    let bathrooms = (i % 3) + 1;
-    let price = 5000 + (i * 380);
+    const propertyTypes = ['APARTMENT', 'HOUSE', 'PG'];
+    const propertyType = isRealProject ? realProj.propertyType : propertyTypes[i % propertyTypes.length];
+    
+    let bedrooms = isRealProject ? realProj.bedrooms : (i % 4) + 1;
+    let bathrooms = isRealProject ? realProj.bathrooms : (i % 3) + 1;
+    let price = isRealProject ? realProj.price : 5000 + (i * 380);
     
     if (propertyType === 'PG') {
       bedrooms = 1;
       bathrooms = 1;
-      price = 4500 + (i * 45);
+      if (!isRealProject) price = 4500 + (i * 45);
     }
 
-    const title = `${adjective} ${propertyType === 'PG' ? 'PG Room' : propertyType.charAt(0) + propertyType.slice(1).toLowerCase()} in ${area}`;
-    const address = `Flat ${10 + (i % 90)}, ${i % 2 === 0 ? 'Ganesh Colony' : 'Venkateswara Nagar'}, ${area}`;
+    // Set a realistic property title
+    let title = "";
+    if (isRealProject) {
+      title = `${realProj.name} (${bedrooms} BHK)`;
+    } else {
+      const builder = BUILDERS[i % BUILDERS.length];
+      const suffix = PROJECT_SUFFIXES[i % PROJECT_SUFFIXES.length];
+      const pgProvider = PG_PROVIDERS[i % PG_PROVIDERS.length];
+      
+      if (propertyType === 'PG') {
+        title = `${pgProvider} Luxury Co-Living PG in ${area}`;
+      } else if (propertyType === 'HOUSE') {
+        title = `${builder} ${suffix} Independent Villa in ${area}`;
+      } else {
+        title = `${builder} ${suffix} (${bedrooms} BHK Apartment) in ${area}`;
+      }
+    }
+
+    const address = isRealProject 
+      ? `Flat ${10 + i}, ${realProj.name}, ${area}, ${city}`
+      : `Flat ${10 + (i % 90)}, ${i % 2 === 0 ? 'Ganesh Colony' : 'Venkateswara Nagar'}, ${area}, ${city}`;
     
     // Distinct mobile numbers
     const contactNumber = `+91 ${9000000000 + (i * 444444) % 99999999}`;
-    const description = `This is a beautiful ${bedrooms} BHK ${propertyType.toLowerCase()} located in ${area}, ${city}. Includes top-tier facilities, nearby transport links, and full security.`;
+    
+    const description = isRealProject
+      ? realProj.desc
+      : `This is a beautiful ${bedrooms} BHK ${propertyType.toLowerCase()} located in ${area}, ${city}. Includes top-tier modular kitchen fittings, nearby transit stations, and full gated-community security.`;
     
     // Image selection
-    const imgs = IMAGES[propertyType];
-    const imageUrl = imgs[i % imgs.length];
+    const imageUrl = isRealProject 
+      ? realProj.images 
+      : (propertyType === 'PG' 
+          ? IMAGES.PG[i % IMAGES.PG.length] 
+          : (propertyType === 'HOUSE' ? IMAGES.HOUSE[i % IMAGES.HOUSE.length] : IMAGES.APARTMENT[i % IMAGES.APARTMENT.length])
+        );
 
     // Amenities list
     const amenities = AMENITIES_POOL.filter((_, idx) => (i + idx) % 3 === 0);
