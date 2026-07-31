@@ -60,7 +60,7 @@ export const createProperty = async (ownerId, propertyData, files = []) => {
     bankIfscCode,
     images,
     ownerId,
-    status: process.env.NODE_ENV === 'development' ? 'APPROVED' : 'PENDING',
+    status: 'APPROVED',
   });
 };
 
