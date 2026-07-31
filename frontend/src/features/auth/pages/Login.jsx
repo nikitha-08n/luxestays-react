@@ -19,11 +19,20 @@ export default function Login() {
       const role = data.user?.role?.toLowerCase() || 'renter';
       navigate(`/dashboard/${role}`);
     },
+    onError: (error) => {
+      if (error.message?.includes('not verified') || error.message?.includes('verify your account')) {
+        const email = getValues('email');
+        if (email) {
+          navigate(`/verify-otp?email=${encodeURIComponent(email)}`);
+        }
+      }
+    },
   });
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
