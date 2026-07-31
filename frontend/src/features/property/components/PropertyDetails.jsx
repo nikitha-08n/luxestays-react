@@ -80,7 +80,7 @@ export default function PropertyDetails() {
 
   const isWishlisted = wishlistResponse?.success && wishlistResponse.data.wishlisted;
   const reviewsList = reviewsResponse?.success ? reviewsResponse.data : [];
-  const isOwner = currentUser?.id === property?.ownerId?._id;
+  const isOwner = currentUser?.id && property?.ownerId?._id && currentUser.id === property.ownerId._id;
 
   const handleWishlistToggle = () => {
     if (!isAuthenticated) {

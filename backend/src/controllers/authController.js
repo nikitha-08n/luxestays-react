@@ -113,7 +113,18 @@ export const getProfile = async (req, res, next) => {
     if (!user) {
       return res.status(404).json(ApiResponse.error('User not found'));
     }
-    res.status(200).json(ApiResponse.success(user, 'Profile retrieved successfully'));
+    res.status(200).json(ApiResponse.success({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      isVerified: user.isVerified,
+      points: user.points || 0,
+      phone: user.phone || '',
+      upiId: user.upiId || '',
+      bankAccountNumber: user.bankAccountNumber || '',
+      bankIfscCode: user.bankIfscCode || '',
+    }, 'Profile retrieved successfully'));
   } catch (error) {
     next(error);
   }
